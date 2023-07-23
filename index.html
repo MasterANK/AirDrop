@@ -1,7 +1,683 @@
-<Html> <!-- This tag is compulsory for any HTML document. -->   
-<Head>  
-</Head>  
-<Body> 
-<H1>HELLO WORLD</H1>
-</Body>  
-</Html>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- [pyscript Package Below-->
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+    <!-- Leaflet's Package Below-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-rotatedmarker@0.2.0/leaflet.rotatedMarker.js"></script>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            overflow: hidden; 
+            position: relative; 
+        }
+        html, body, #Map {
+            height: 100%;
+            width: 100%;
+        }
+        #Map {
+        position: relative;
+        }
+        .contain-control {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .right {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 140px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 20%;
+        }
+        #dimage {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 140px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+        }
+        .forward {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 100px;
+            bottom: 65px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 20%;
+        }
+        #wimage {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 100px;
+            bottom: 65px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: rotate(-90deg);
+            z-index: 9998;
+        }
+        .back {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 100px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 20%;
+        }
+        #simage {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 100px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: rotate(-270deg);
+            z-index: 9998;
+        }
+        .left {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 60px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 20%;
+        }
+        #aimage {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 60px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: rotate(-180deg);
+            z-index: 9998;
+        }
+        .dropbutton {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            right: 20px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 20%;
+        }
+        #dropimage {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            right: 20px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+        }
+        .pause {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            right: 47%;
+            bottom: 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 20%;
+        }
+        #pauseimage {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            right: 47%;
+            bottom: 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+        }
+        #objcountry {
+            position: absolute;
+            font-size: 20px;
+            z-index: 9999;
+            top: 0;
+            left: 120px;
+            color: white;
+            text-shadow: 
+            -2px -2px 0 #000, 
+            2px -2px 0 #000,  
+            -2px 2px 0 #000,  
+            2px 2px 0 #000;
+        }
+        #final_destination {
+            position: absolute;
+            font-size: 20px;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            color: white;
+            text-shadow: 
+            -2px -2px 0 #000, 
+            2px -2px 0 #000,  
+            -2px 2px 0 #000,  
+            2px 2px 0 #000;
+        }
+        #last_location {
+            position: absolute;
+            font-size: 20px;
+            z-index: 9999;
+            top: 20px;
+            left: 0;
+            color: white;
+            text-shadow: 
+            -2px -2px 0 #000, 
+            2px -2px 0 #000,  
+            -2px 2px 0 #000,  
+            2px 2px 0 #000;
+        }
+        #lastcountry {
+            position: absolute;
+            font-size: 20px;
+            z-index: 9999;
+            top: 20px;
+            left: 105px;
+            color: white;
+            text-shadow: 
+            -2px -2px 0 #000, 
+            2px -2px 0 #000,  
+            -2px 2px 0 #000,  
+            2px 2px 0 #000;
+        }
+        #Score {
+            position: absolute;
+            font-size: 20px;
+            z-index: 9999;
+            top: 0px;
+            right: 40px;
+            color: white;
+            text-shadow: 
+            -2px -2px 0 #000, 
+            2px -2px 0 #000,  
+            -2px 2px 0 #000,  
+            2px 2px 0 #000;
+        }
+        #Score_No {
+            position: absolute;
+            font-size: 20px;
+            z-index: 9999;
+            top: 0px;
+            right: 30px;
+            color: white;
+            text-shadow: 
+            -2px -2px 0 #000, 
+            2px -2px 0 #000,  
+            -2px 2px 0 #000,  
+            2px 2px 0 #000;
+        }
+        /* FOR MOBILES */
+        @media (max-width: 768px) {
+            .right {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            left: 61px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 20%;
+        }
+        #dimage {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            left: 61px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+        }
+        .forward {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            left: 32px;
+            bottom: 54px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 20%;
+        }
+        #wimage {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            left: 32px;
+            bottom: 54px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: rotate(-90deg);
+            z-index: 9998;
+        }
+        .back {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            left: 32px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 20%;
+        }
+        #simage {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            left: 32px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: rotate(-270deg);
+            z-index: 9998;
+        }
+        .left {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            left: 3px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 20%;
+        }
+        #aimage {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            left: 3px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: rotate(-180deg);
+            z-index: 9998;
+        }
+        .dropbutton {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            right: 6px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 20%;
+        }
+        #dropimage {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            right: 6px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+        }
+        .pause {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            right: 122px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 20%;
+        }
+        #pauseimage {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            right: 122px;
+            bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+        }
+        #objcountry {
+            position: absolute;
+            font-size: 10px;
+            z-index: 9999;
+            top: 0;
+            left: 60px;
+            color: white;
+            text-shadow: 
+            -0.8px -0.8px 0 #000, 
+            0.8px -0.8px 0 #000,  
+            -0.8px 0.8px 0 #000,  
+            0.8px 0.8px 0 #000;
+        }
+        #final_destination {
+            position: absolute;
+            font-size: 10px;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            color: white;
+            text-shadow: 
+            -0.8px -0.8px 0 #000, 
+            0.8px -0.8px 0 #000,  
+            -0.8px 0.8px 0 #000,  
+            0.8px 0.8px 0 #000;
+        }
+        #last_location {
+            position: absolute;
+            font-size: 10px;
+            z-index: 9999;
+            top: 14px;
+            left: 0;
+            color: white;
+            text-shadow: 
+            -0.8px -0.8px 0 #000, 
+            0.8px -0.8px 0 #000,  
+            -0.8px 0.8px 0 #000,  
+            0.8px 0.8px 0 #000;
+        }
+        #lastcountry {
+            position: absolute;
+            font-size: 10px;
+            z-index: 9999;
+            top: 14px;
+            left: 52px;
+            color: white;
+            text-shadow: 
+            -0.8px -0.8px 0 #000, 
+            0.8px -0.8px 0 #000,  
+            -0.8px 0.8px 0 #000,  
+            0.8px 0.8px 0 #000;
+        }
+        #Score {
+            position: absolute;
+            font-size: 10px;
+            z-index: 9999;
+            top: 0px;
+            right: 17px;
+            color: white;
+            text-shadow: 
+            -0.8px -0.8px 0 #000, 
+            0.8px -0.8px 0 #000,  
+            -0.8px 0.8px 0 #000,  
+            0.8px 0.8px 0 #000;
+        }
+        #Score_No {
+            position: absolute;
+            font-size: 10px;
+            z-index: 9999;
+            top: 0px;
+            right: 10px;
+            color: white;
+            text-shadow: 
+            -0.8px -0.8px 0 #000, 
+            0.8px -0.8px 0 #000,  
+            -0.8px 0.8px 0 #000,  
+            0.8px 0.8px 0 #000;
+        }
+}
+
+    </style>
+</head>
+
+<body>
+    <div id="Map">
+        <div>
+            <div class="contain-control">
+                <img src="https://static.wixstatic.com/media/6405a3_93eb9be9e4724f08b3cb477a4769e41a~mv2.png" id="dimage"> 
+                <button  py-click="moveright()" class="right" id="right"></button>
+            </div>
+            <div class="contain-control">
+                <img src="https://static.wixstatic.com/media/6405a3_93eb9be9e4724f08b3cb477a4769e41a~mv2.png" id="wimage"> 
+                <button  py-click="moveforward()" class="forward" id="forward"></button>
+            </div>
+            <div class="contain-control">
+                <img src="https://static.wixstatic.com/media/6405a3_93eb9be9e4724f08b3cb477a4769e41a~mv2.png" id="simage"> 
+                <button  py-click="moveback()" class="back" id="back"></button>
+            </div>
+            <div class="contain-control">
+                <img src="https://static.wixstatic.com/media/6405a3_93eb9be9e4724f08b3cb477a4769e41a~mv2.png" id="aimage"> 
+                <button  py-click="moveleft()" class="left" id="left"></button>
+            </div>
+            <div class="contain-control">
+                <img src="https://static.wixstatic.com/media/6405a3_b1fea8b435fc41b3be02fc2d25b399de~mv2.png" id="dropimage"> 
+                <button  py-click="airdrop()" class="dropbutton" id="dropbutton"></button>
+            </div>
+            <div class="contain-control">
+                <img src="https://static.wixstatic.com/media/6405a3_4e1e94a5abbe4178a6aa9eb4db187f63~mv2.png" id="pauseimage"> 
+                <button  onclick="pausegame()" class="pause"></button>
+            </div>
+            <div class="contain-control">
+                <label id="final_destination"><strong>Destination:</strong></label>
+                <label id="objcountry"><strong>LOADING.....</strong></label>
+            </div>
+            <div class="contain-control">
+                <label id="last_location"><strong>Last Drop:</strong></label>
+                <label id="lastcountry"><strong> </strong></label>
+            </div>
+            <div class="contain-control">
+                <label id="Score"><strong>Score:</strong></label>
+                <label id="Score_No"><strong>0</strong></label>
+            </div>
+        </div>
+    </div>
+    <script>
+        var ispython = false;
+        var m = new L.map('Map',{
+            zoomControl : false,
+            continuousWorld: false,
+            noWrap: true,
+            minZoom: 3.5,
+            maxZoom: 3.5
+        }).setView([8.520683,77.379049], 3.5);
+
+        var layer = new L.TileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png",
+        attr="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+        {noWrap: true,
+            continuousWorld: false,
+            bounds: [
+            [85, -180],
+            [-85, 180]
+        ]});
+        m.addLayer(layer)
+
+        var maxBounds = L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180));
+        m.setMaxBounds(maxBounds);
+        fetch("https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson")
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            // Create a GeoJSON layer and add it to the map
+            L.geoJSON(data,{
+                style: function(feature) {
+                    return {
+                        fillColor: 'green',    // Fill color of the country
+                        color: 'black',        // Border color of the country
+                        weight: 2,
+                        Opacity: 1,            // Border width of the country
+                        fillOpacity: 0     // Opacity of the country fill
+                    };
+                }
+            }).addTo(m);
+        });
+        var icon = new L.icon({iconUrl:"https://static.wixstatic.com/media/6405a3_f4e871a502c84bc29839e18a16306086~mv2.png",iconSize: [80],iconAnchor: [40,40]})
+        var plane = L.marker([8,77], {icon: icon}).addTo(m)
+        function pausegame(){
+            ispython = false
+            console.log(pyscript.interpreter.globals.get("score"))
+        }
+        function handleKeyPress(event) {
+        if (event.key === 'D' || event.key === 'd') {           
+            mover = pyscript.interpreter.globals.get('moveright')
+            mover();
+        } 
+        else if (event.key === 'W' || event.key === 'w') {
+            mover = pyscript.interpreter.globals.get('moveforward')
+            mover();
+        }
+        else if (event.key === 'S' || event.key === 's') {
+            mover = pyscript.interpreter.globals.get('moveback')
+            mover();
+        }
+        else if (event.key === 'A' || event.key === 'a') {
+            mover = pyscript.interpreter.globals.get('moveleft')
+            mover();
+        }
+        else if (event.key === " ") {
+            mover = pyscript.interpreter.globals.get('airdrop')
+            mover();
+        }
+        }
+
+    // Attach the key press event listener to the document
+    document.addEventListener('keypress', handleKeyPress);
+
+
+        var mainloop = setInterval(function() {
+        if (ispython) {
+            x = pyscript.interpreter.globals.get('main')
+            x()
+        }
+        }, 100);  
+
+    </script>
+    <py-config>
+        packages = ['ssl', 'pyodide-http', 'geopy',"pycountry"]
+    </py-config>
+
+    <py-script>
+        import js
+        import pyodide_http
+        pyodide_http.patch_all()  # Patch urllib3 and requests
+    
+        from geopy.geocoders import Nominatim
+        import pycountry
+        import random
+
+        score = 0
+
+        facing = "N"
+        lati = 8
+        longi = 77
+        #minZoom : 1,
+        #maxZoom : 1
+        #`In Python right now, x = ${pyscript.interpreter.globals.get('main')}`
+
+        baned_country = ["Nauru","Lebanon","Israel","Malawi","Lesotho","Eswatini"]
+        recognized_country_list = [country.name for country in pycountry.countries if hasattr(country, "official_name") and len(country.name) < 10 and country.name not in baned_country]
+
+        geolocator = Nominatim(user_agent="airdrop", scheme='https')
+
+        def moveright():
+            global facing 
+            facing = "E"
+        def moveforward():
+            global facing 
+            facing = "N"
+        def moveback():
+            global facing 
+            facing = "S"
+        def moveleft():
+            global facing 
+            facing = "W" 
+        
+        def airdrop():
+            global score
+            position = js.plane.getLatLng()
+            location = geolocator.reverse([position.lat, position.lng])
+            select_country = location.raw['address']['country']
+            js.document.getElementById('lastcountry').innerHTML = select_country
+            if select_country == objection:
+                score += 1
+                js.document.getElementById('Score_No').innerHTML = score
+                obj_country()
+
+        def obj_country():
+            global objection
+            objection = random.choice(recognized_country_list)
+            js.document.getElementById('objcountry').innerHTML = objection
+
+
+        def main():
+            global lati,longi,facing
+            if facing == "N":
+                lati += 0.2
+                js.plane.setRotationAngle(0)
+            elif facing == "E":
+                longi += 0.2
+                js.plane.setRotationAngle(90)
+            elif facing == "S":
+                lati -= 0.2
+                js.plane.setRotationAngle(180)
+            elif facing == "W":
+                longi -= 0.2
+                js.plane.setRotationAngle(270)
+            posi = js.L.latLng(lati, longi)
+            js.plane.setLatLng(posi)
+
+        obj_country()
+        js.ispython = True
+    </py-script>
+
+</body>
+</html>
