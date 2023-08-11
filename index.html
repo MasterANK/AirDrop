@@ -232,7 +232,7 @@
             font-size: 20px;
             z-index: 9999;
             top: 0px;
-            right: 40px;
+            right: 43px;
             color: white;
             text-shadow: 
             -2px -2px 0 #000, 
@@ -245,7 +245,7 @@
             font-size: 20px;
             z-index: 9999;
             top: 0px;
-            right: 30px;
+            right: 2px;
             color: white;
             text-shadow: 
             -2px -2px 0 #000, 
@@ -253,7 +253,7 @@
             -2px 2px 0 #000,  
             2px 2px 0 #000;
         }
-               /* FOR MOBILES */
+        /* FOR MOBILES */
         @media (max-width: 768px) {
             .right {
             width: 40px;
@@ -377,7 +377,7 @@
             width: 40px;
             height: 40px;
             position: absolute;
-            right: 117px;
+            right: 188px;
             bottom: 0px;
             display: flex;
             justify-content: center;
@@ -389,7 +389,7 @@
             width: 40px;
             height: 40px;
             position: absolute;
-            right: 117px;
+            right: 188px;
             bottom: 0px;
             display: flex;
             justify-content: center;
@@ -453,7 +453,7 @@
             font-size: 10px;
             z-index: 9999;
             top: 0px;
-            right: 17px;
+            right: 21px;
             color: white;
             text-shadow: 
             -0.8px -0.8px 0 #000, 
@@ -466,7 +466,7 @@
             font-size: 10px;
             z-index: 9999;
             top: 0px;
-            right: 10px;
+            right: 1px;
             color: white;
             text-shadow: 
             -0.8px -0.8px 0 #000, 
@@ -483,28 +483,28 @@
     <div id="Map">
         <div>
             <div class="contain-control">
-                <img src="https://static.wixstatic.com/media/6405a3_93eb9be9e4724f08b3cb477a4769e41a~mv2.png" id="dimage"> 
+                <img src="https://github.com/MasterANK/AirDrop/blob/479c8f7051100995dd97e1f7d26de4938cfa839b/right%20button.png" id="dimage"> 
                 <button  py-click="moveright()" class="right" id="right"></button>
             </div>
             <div class="contain-control">
-                <img src="https://static.wixstatic.com/media/6405a3_93eb9be9e4724f08b3cb477a4769e41a~mv2.png" id="wimage"> 
+                <img src="https://github.com/MasterANK/AirDrop/blob/479c8f7051100995dd97e1f7d26de4938cfa839b/right%20button.png" id="wimage"> 
                 <button  py-click="moveforward()" class="forward" id="forward"></button>
             </div>
             <div class="contain-control">
-                <img src="https://static.wixstatic.com/media/6405a3_93eb9be9e4724f08b3cb477a4769e41a~mv2.png" id="simage"> 
+                <img src="https://github.com/MasterANK/AirDrop/blob/479c8f7051100995dd97e1f7d26de4938cfa839b/right%20button.png" id="simage"> 
                 <button  py-click="moveback()" class="back" id="back"></button>
             </div>
             <div class="contain-control">
-                <img src="https://static.wixstatic.com/media/6405a3_93eb9be9e4724f08b3cb477a4769e41a~mv2.png" id="aimage"> 
+                <img src="https://github.com/MasterANK/AirDrop/blob/479c8f7051100995dd97e1f7d26de4938cfa839b/right%20button.png" id="aimage"> 
                 <button  py-click="moveleft()" class="left" id="left"></button>
             </div>
             <div class="contain-control">
-                <img src="https://static.wixstatic.com/media/6405a3_b1fea8b435fc41b3be02fc2d25b399de~mv2.png" id="dropimage"> 
-                <button  py-click="airdrop()" class="dropbutton" id="dropbutton"></button>
+                <img src="https://github.com/MasterANK/AirDrop/blob/479c8f7051100995dd97e1f7d26de4938cfa839b/airdropimage.png" id="dropimage"> 
+                <button  py-click="packagedrop()" class="dropbutton" id="dropbutton"></button>
             </div>
             <div class="contain-control">
-                <img src="https://static.wixstatic.com/media/6405a3_4e1e94a5abbe4178a6aa9eb4db187f63~mv2.png" id="pauseimage"> 
-                <button  onclick="pausegame()" class="pause"></button>
+                <img src="https://github.com/MasterANK/AirDrop/blob/479c8f7051100995dd97e1f7d26de4938cfa839b/hint_button.png" id="pauseimage"> 
+                <button  py-click="counthint()" class="pause"></button>
             </div>
             <div class="contain-control">
                 <label id="final_destination"><strong>Destination:</strong></label>
@@ -515,8 +515,8 @@
                 <label id="lastcountry"><strong> </strong></label>
             </div>
             <div class="contain-control">
-                <label id="Score"><strong>Score:</strong></label>
-                <label id="Score_No"><strong>0</strong></label>
+                <div id="Score"><strong>Score:</strong></div>
+                <div id="Score_No"><strong>0</strong></div>
             </div>
         </div>
     </div>
@@ -560,12 +560,10 @@
                 }
             }).addTo(m);
         });
-        var icon = new L.icon({iconUrl:"https://static.wixstatic.com/media/6405a3_f4e871a502c84bc29839e18a16306086~mv2.png",iconSize: [80],iconAnchor: [40,40]})
+        var icon = new L.icon({iconUrl:"https://github.com/MasterANK/AirDrop/blob/479c8f7051100995dd97e1f7d26de4938cfa839b/Plane.png",iconSize: [80],iconAnchor: [40,40]})
         var plane = L.marker([8,77], {icon: icon}).addTo(m)
-        function pausegame(){
-            ispython = false
-            console.log(pyscript.interpreter.globals.get("score"))
-        }
+
+
         function handleKeyPress(event) {
         if (event.key === 'D' || event.key === 'd') {           
             mover = pyscript.interpreter.globals.get('moveright')
@@ -583,17 +581,25 @@
             mover = pyscript.interpreter.globals.get('moveleft')
             mover();
         }
-        else if (event.key === " ") {
-            mover = pyscript.interpreter.globals.get('airdrop')
+        else if (event.key === " " || event.key === "Spacebar") {
+            event.preventDefault();
+            mover = pyscript.interpreter.globals.get('packagedrop')
             mover();
         }
         }
 
-    // Attach the key press event listener to the document
+
     document.addEventListener('keypress', handleKeyPress);
 
+    document.addEventListener('keyup', (event) => {
+    if (event.key === " " || event.key === "Spacebar") {
+        // Prevent the default behavior of the spacebar key
+        event.preventDefault();
+        }
+    })
 
-        var mainloop = setInterval(function() {
+
+    var mainloop = setInterval(function() {
         if (ispython) {
             x = pyscript.interpreter.globals.get('main')
             x()
@@ -613,6 +619,7 @@
         from geopy.geocoders import Nominatim
         import pycountry
         import random
+        import time
 
         score = 0
 
@@ -623,10 +630,13 @@
         #maxZoom : 1
         #`In Python right now, x = ${pyscript.interpreter.globals.get('main')}`
 
-        baned_country = ["Nauru","Lebanon","Israel","Malawi","Lesotho","Eswatini"]
+        baned_country = ["Nauru","Lebanon","Israel","Malawi","Lesotho","Eswatini","Andorra","Swaziland","Congo","Dominica","Guadeloupe",""]
         recognized_country_list = [country.name for country in pycountry.countries if hasattr(country, "official_name") and len(country.name) < 10 and country.name not in baned_country]
 
         geolocator = Nominatim(user_agent="airdrop", scheme='https')
+
+        hintbool = False
+        planevel = 0.2
 
         def moveright():
             global facing 
@@ -641,14 +651,19 @@
             global facing 
             facing = "W" 
         
-        def airdrop():
-            global score
+        def packagedrop():
+            global score,hintbool
             position = js.plane.getLatLng()
             location = geolocator.reverse([position.lat, position.lng])
+            print("airdrop flag") #####
             select_country = location.raw['address']['country']
             js.document.getElementById('lastcountry').innerHTML = select_country
             if select_country == objection:
-                score += 1
+                if hintbool:
+                    score += 0.5
+                else:
+                    score += 1
+                hintbool = False
                 js.document.getElementById('Score_No').innerHTML = score
                 obj_country()
 
@@ -657,20 +672,36 @@
             objection = random.choice(recognized_country_list)
             js.document.getElementById('objcountry').innerHTML = objection
 
+        def counthint():
+            global hintbool,hintstart
+            hintcount = geolocator.geocode(objection)
+            hintpos = js.L.latLng(hintcount.latitude, hintcount.longitude)
+            js.m.panTo(hintpos)
+            hintbool = True
+            hintstart = time.time()
+
 
         def main():
-            global lati,longi,facing
+            global lati,longi,facing,planevel
+
+            if hintbool:
+                current_time = time.time()
+                if current_time - hintstart <= 5:
+                    planevel = 0.5
+                else:
+                    planevel = 0.2
+            
             if facing == "N":
-                lati += 0.2
+                lati += planevel
                 js.plane.setRotationAngle(0)
             elif facing == "E":
-                longi += 0.2
+                longi += planevel
                 js.plane.setRotationAngle(90)
             elif facing == "S":
-                lati -= 0.2
+                lati -= planevel
                 js.plane.setRotationAngle(180)
             elif facing == "W":
-                longi -= 0.2
+                longi -= planevel
                 js.plane.setRotationAngle(270)
             posi = js.L.latLng(lati, longi)
             js.plane.setLatLng(posi)
