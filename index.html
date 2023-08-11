@@ -655,7 +655,6 @@
             global score,hintbool
             position = js.plane.getLatLng()
             location = geolocator.reverse([position.lat, position.lng])
-            print("airdrop flag") #####
             select_country = location.raw['address']['country']
             js.document.getElementById('lastcountry').innerHTML = select_country
             if select_country == objection:
