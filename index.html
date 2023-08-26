@@ -637,6 +637,7 @@
 
         hintbool = False
         planevel = 0.2
+        buffbool = False
 
         def moveright():
             global facing 
@@ -652,7 +653,8 @@
             facing = "W" 
         
         def packagedrop():
-            global score,hintbool
+            global score,hintbool,hintstart,buffbool
+            buffbool = True
             position = js.plane.getLatLng()
             location = geolocator.reverse([position.lat, position.lng])
             select_country = location.raw['address']['country']
@@ -665,6 +667,7 @@
                 hintbool = False
                 js.document.getElementById('Score_No').innerHTML = score
                 obj_country()
+            hintstart = time.time()
 
         def obj_country():
             global objection
@@ -672,18 +675,19 @@
             js.document.getElementById('objcountry').innerHTML = objection
 
         def counthint():
-            global hintbool,hintstart
+            global hintbool,hintstart,buffbool
             hintcount = geolocator.geocode(objection)
             hintpos = js.L.latLng(hintcount.latitude, hintcount.longitude)
             js.m.panTo(hintpos)
             hintbool = True
+            buffbool = True
             hintstart = time.time()
 
 
         def main():
             global lati,longi,facing,planevel
 
-            if hintbool:
+            if buffbool:
                 current_time = time.time()
                 if current_time - hintstart <= 5:
                     planevel = 0.5
